@@ -1,0 +1,19 @@
+@import './SASS/Modules/variables';
+@import './SASS/Modules/mixins';
+@import './SASS/Modules/navigation';
+@import './SASS/Modules/loadingSpinner';
+@import './SASS/Modules/moviesList';
+@import './SASS/Modules/search';
+@import './SASS/Modules/footer';
+
+.App {
+  text-align: center;
+  background: #081a28;
+  overflow: auto;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: $font-family;
+}
