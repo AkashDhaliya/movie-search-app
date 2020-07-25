@@ -8,46 +8,73 @@ class MoviesList extends Component {
     super(props);
     this.state = {
       moviesList: [],
-      pageNo: 1,
+      page_no: 1,
       isError: false,
       isResponse: true,
       errorMessage: "Your search begins here.",
     };
   }
 
-  componentDidMount() {
-    //this.getSearchData();
+  componentDidUpdate(prevProps) {
+    if (this.checkToRenderOnUpdate(prevProps)) {
+      let params = {
+        apikey: API_KEY,
+        s: this.props.searchQuery,
+        type: this.props.searchType,
+        plot: "full",
+        page: 1,
+      };
+      this.setState({
+        moviesList: [],
+        isResponse: true,
+        isError: false,
+        errorMessage: "",
+      });
+      this.getSearchData(params);
+    }
   }
 
-  getSearchData = () => {
-    let params = {
-      apikey: API_KEY,
-      s: "Ant",
-      plot: "full",
-      page: 1,
-    };
+  checkToRenderOnUpdate = (prevProps) => {
+    const { searchQuery, searchType } = this.props;
+    if (searchQuery.length !== 0) {
+      if (searchQuery !== prevProps.searchQuery) {
+        return true;
+      } else if (searchQuery === prevProps.searchQuery) {
+        if (searchType !== prevProps.searchType) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    } else {
+      return false;
+    }
+  };
+
+  getSearchData = (params) => {
     Requests(params).then(
       (response) => {
-        if (response.data.Search.length > 0) {
-          let data = response.data.Search.map((item) => {
-            return (
-              <div key={item.imdbID} className="movieCard">
-                <div className="container">
-                  <h3>
-                    <strong>{item.Title}</strong>
-                  </h3>
-                </div>
-                <img src={item.Poster} alt={item.Title} />
-              </div>
-            );
+        if (response.data.Response === "True") {
+          let data = this.state.moviesList
+            .concat(response.data.Search)
+            .filter(function (item, index, data) {
+              let dataIndex = data.findIndex(
+                (ind) => ind.imdbID === item.imdbID
+              );
+              return dataIndex === index;
+            });
+          this.setState({
+            moviesList: data,
+            isResponse: true,
+            isError: false,
+            page_no: data.length / 10,
           });
-          this.setState({ moviesList: data, isResponse: true, isError: false });
         } else {
           this.setState({
             moviesList: [],
             isResponse: true,
             isError: false,
-            errorMessage: "No results found for your search query.",
+            errorMessage: response.data.Error,
           });
         }
       },
@@ -61,11 +88,43 @@ class MoviesList extends Component {
     );
   };
 
+  loadMoreData = (evt) => {
+    let pageNo = this.state.moviesList.length / 10 + 1;
+    if (
+      evt.target.scrollHeight - evt.target.scrollTop < 1000 &&
+      this.state.page_no !== pageNo &&
+      this.state.isResponse
+    ) {
+      let params = {
+        apikey: API_KEY,
+        s: this.props.searchQuery,
+        type: this.props.searchType,
+        plot: "full",
+        page: pageNo,
+      };
+      this.getSearchData(params);
+    }
+  };
+
   render() {
     const { isResponse, isError, moviesList, errorMessage } = this.state;
     if (isResponse && !isError) {
       return moviesList.length !== 0 ? (
-        <section className="moviesListSec">{moviesList}</section>
+        <section className="moviesListSec" onScroll={this.loadMoreData}>
+          {moviesList.map((item) => {
+            return (
+              <div key={item.imdbID} className="movieCard">
+                <div className="container">
+                  <h3>
+                    <strong>{item.Title}</strong>&nbsp;
+                  </h3>
+                  <small>({item.Year})</small>
+                </div>
+                <img src={item.Poster} alt={item.Title} />
+              </div>
+            );
+          })}
+        </section>
       ) : (
         <section className="moviesListSec">
           <div className="errorMessage">{errorMessage}</div>

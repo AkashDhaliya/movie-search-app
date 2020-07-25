@@ -9,8 +9,6 @@ function MoviesContainer() {
   function search(query, type) {
     setSearchQuery(query);
     setSearchType(type);
-    console.log(query);
-    console.log(type);
   }
   return (
     <section className="moviesContainerSec">

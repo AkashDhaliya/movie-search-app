@@ -52,9 +52,9 @@ function Search(props) {
           name="searchDropdown"
         >
           <option value="">Options</option>
-          <option value="Movies">Movies</option>
-          <option value="Series">Series</option>
-          <option value="Episodes">Episodes</option>
+          <option value="movie">Movies</option>
+          <option value="series">Series</option>
+          <option value="episode">Episodes</option>
         </select>
         <button className="search-btn" onClick={submitSearch}>
           Search
