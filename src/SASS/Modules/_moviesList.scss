@@ -16,6 +16,13 @@
   &::-webkit-scrollbar {
     display: none;
   }
+
+  .resultInfo {
+    position: absolute;
+    color: wheat;
+    right: 30px;
+    top: 100px;
+  }
 }
 
 .errorMessage {

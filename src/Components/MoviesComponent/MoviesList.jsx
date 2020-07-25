@@ -9,6 +9,7 @@ class MoviesList extends Component {
     this.state = {
       moviesList: [],
       page_no: 1,
+      totalResults: 0,
       isError: false,
       isResponse: true,
       errorMessage: "Your search begins here.",
@@ -65,6 +66,7 @@ class MoviesList extends Component {
             });
           this.setState({
             moviesList: data,
+            totalResults: response.data.totalResults,
             isResponse: true,
             isError: false,
             page_no: data.length / 10,
@@ -107,10 +109,17 @@ class MoviesList extends Component {
   };
 
   render() {
-    const { isResponse, isError, moviesList, errorMessage } = this.state;
+    const {
+      isResponse,
+      isError,
+      moviesList,
+      errorMessage,
+      totalResults,
+    } = this.state;
     if (isResponse && !isError) {
       return moviesList.length !== 0 ? (
         <section className="moviesListSec" onScroll={this.loadMoreData}>
+          <div className="resultInfo">Showing&nbsp;{moviesList.length}&nbsp;out of&nbsp;{totalResults}</div>
           {moviesList.map((item) => {
             return (
               <div key={item.imdbID} className="movieCard">
