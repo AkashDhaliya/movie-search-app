@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.scss";
 import Header from "./Components/HeaderComponent/Header";
+import Favourite from './Components/FavouriteComponent/Favourite';
 import MoviesContainer from './Components/MoviesContainerComponent/MoviesContainer'
 import Footer from "./Components/FooterComponent/Footer";
 
@@ -13,7 +14,7 @@ function App() {
         <Header />
         <Switch>
            <Route exact path="/" component={MoviesContainer}></Route>
-          <Route exact path="/favourites" component={MoviesContainer}></Route>
+          <Route exact path="/favourite" component={Favourite}></Route>
         </Switch>
         <Footer />
       </Router>

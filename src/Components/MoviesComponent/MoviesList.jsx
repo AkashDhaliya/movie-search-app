@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Requests from "../RequestComponent/Requests";
 import { API_KEY } from "../../Constants/Const";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Loading from "../LoadingSpinnerComponent/LoadingSpinner";
 
 class MoviesList extends Component {
@@ -8,12 +9,17 @@ class MoviesList extends Component {
     super(props);
     this.state = {
       moviesList: [],
+      favItemsId: [],
       page_no: 1,
       totalResults: 0,
       isError: false,
       isResponse: true,
       errorMessage: "Your search begins here.",
     };
+  }
+
+  componentDidMount() {
+    this.setState({ favItemsId: Object.keys(localStorage) });
   }
 
   componentDidUpdate(prevProps) {
@@ -64,6 +70,21 @@ class MoviesList extends Component {
               );
               return dataIndex === index;
             });
+
+          data = data.map((item) => {
+            if (this.state.favItemsId.length !== 0) {
+              return this.state.favItemsId.map((favItem) => {
+                if (favItem === item.imdbID) {
+                  item.favourite = true;
+                } else {
+                  item.favourite = false;
+                }
+                return item;
+              });
+            }
+            item.favourite = false;
+            return item;
+          });
           this.setState({
             moviesList: data,
             totalResults: response.data.totalResults,
@@ -84,7 +105,8 @@ class MoviesList extends Component {
         this.setState({
           isResponse: true,
           isError: true,
-          errorMessage: "Oops Something went wrong while getting data.",
+          errorMessage:
+            "Oops Something went wrong. Please check you r internet connection or connect with our technical support.",
         });
       }
     );
@@ -95,7 +117,8 @@ class MoviesList extends Component {
     if (
       evt.target.scrollHeight - evt.target.scrollTop < 1000 &&
       this.state.page_no !== pageNo &&
-      this.state.isResponse
+      this.state.isResponse &&
+      parseInt(this.state.totalResults) !== this.state.moviesList.length
     ) {
       let params = {
         apikey: API_KEY,
@@ -105,6 +128,14 @@ class MoviesList extends Component {
         page: pageNo,
       };
       this.getSearchData(params);
+    }
+  };
+
+  favouriteHandler = (data) => {
+    if (localStorage.getItem(data.imdbID)) {
+      localStorage.removeItem(data.imdbID);
+    } else {
+      localStorage.setItem(data.imdbID, JSON.stringify(data));
     }
   };
 
@@ -119,7 +150,9 @@ class MoviesList extends Component {
     if (isResponse && !isError) {
       return moviesList.length !== 0 ? (
         <section className="moviesListSec" onScroll={this.loadMoreData}>
-          <div className="resultInfo">Showing&nbsp;{moviesList.length}&nbsp;out of&nbsp;{totalResults}</div>
+          <div className="resultInfo">
+            Showing&nbsp;{moviesList.length}&nbsp;out of&nbsp;{totalResults}
+          </div>
           {moviesList.map((item) => {
             return (
               <div key={item.imdbID} className="movieCard">
@@ -128,6 +161,13 @@ class MoviesList extends Component {
                     <strong>{item.Title}</strong>&nbsp;
                   </h3>
                   <small>({item.Year})</small>
+                </div>
+                <div
+                  className="favourite"
+                  onClick={this.favouriteHandler.bind(null, item)}
+                >
+                  {item.favourite && <FaHeart />}
+                  {!item.favourite && <FaRegHeart />}
                 </div>
                 <img src={item.Poster} alt={item.Title} />
               </div>
