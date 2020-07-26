@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Search from "../SearchComponent/Search";
-import MoviesList from "../MoviesComponent/MoviesList";
+import MovieCard from "../MoviesCardComponent/MovieCard";
 
 function MoviesContainer() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,7 +13,7 @@ function MoviesContainer() {
   return (
     <section className="moviesContainerSec">
       <Search setSearch={search} />
-      <MoviesList searchQuery={searchQuery} searchType={searchType} />
+      <MovieCard searchQuery={searchQuery} searchType={searchType} />
     </section>
   );
 }
