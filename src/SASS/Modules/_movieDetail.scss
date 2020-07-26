@@ -1,0 +1,40 @@
+.moviedetailSec {
+  display: flex;
+  margin: auto;
+  width: -webkit-fill-available;
+  ul {
+    list-style-type: none;
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    font-size: 12px;
+    font-weight: 500;
+    width: 80%;
+    padding: 0;
+    li {
+      display: inline-block;
+      width: 30%;
+      padding: 10px 10px;
+      text-align: start;
+    }
+  }
+}
+
+.moviieDetailImg {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 1%;
+  position: relative;
+  cursor: pointer;
+}
+
+.movieDetailLable {
+  padding-right: 35px;
+  display: inline-block;
+  width: 110px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.movieDetailLableVal {
+}
