@@ -16,6 +16,7 @@ class MovieCard extends Component {
       isError: false,
       isResponse: true,
       showMovieDetail: "",
+      showMovieDetailPosterUrl: "",
       movieDetailmodal: false,
       errorMessage: "Your search begins here.",
     };
@@ -158,7 +159,12 @@ class MovieCard extends Component {
 
   showMovieDetails = (evt) => {
     let movieId = evt.currentTarget.dataset.imdbid;
-    this.setState({ showMovieDetail: movieId, movieDetailmodal: true });
+    let poster = evt.currentTarget.dataset.posterurl;
+    this.setState({
+      showMovieDetail: movieId,
+      showMovieDetailPosterUrl: poster,
+      movieDetailmodal: true,
+    });
     evt.stopPropagation();
   };
 
@@ -173,13 +179,20 @@ class MovieCard extends Component {
     if (isResponse && !isError) {
       return moviesList.length !== 0 ? (
         <section className="movieCardSec" onScroll={this.loadMoreData}>
-          <MovieDetailComponent
-            id={this.state.showMovieDetail}
-            showMovieDetailmodal={this.state.movieDetailmodal}
-            hideMovieDetailmodal={() =>
-              this.setState({ showMovieDetail: "", movieDetailmodal: false })
-            }
-          />
+          {this.state.showMovieDetail !== "" && (
+            <MovieDetailComponent
+              id={this.state.showMovieDetail}
+              posterurl={this.state.showMovieDetailPosterUrl}
+              showMovieDetailmodal={this.state.movieDetailmodal}
+              hideMovieDetailmodal={() =>
+                this.setState({
+                  showMovieDetail: "",
+                  showMovieDetailPosterUrl: "",
+                  movieDetailmodal: false,
+                })
+              }
+            />
+          )}
           <div className="resultInfo">
             Showing&nbsp;{moviesList.length}&nbsp;out of&nbsp;{totalResults}
           </div>
@@ -189,6 +202,7 @@ class MovieCard extends Component {
                 key={item.imdbID}
                 className="movieCard"
                 data-imdbid={item.imdbID}
+                data-posterurl={item.Poster}
                 onClick={this.showMovieDetails}
               >
                 <div className="container">

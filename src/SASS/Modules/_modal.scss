@@ -12,6 +12,7 @@
   transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
 .modal-content {
+  display:flex;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -19,9 +20,11 @@
   background-color: #fff;
   color: #000;
   padding: 1rem 1rem;
-  width: 40%;
+  width: 95%;
+  height: 35em;
   border: 1px solid #fff;
   border-radius: 0.5rem;
+  overflow: auto;
 
   h5 {
     margin: 0;
