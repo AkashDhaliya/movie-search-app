@@ -11,13 +11,13 @@ function Header() {
           </div>
           <ul>
             <li>
-              <NavLink exact activeClassName="active" to="/favourite">
+              <NavLink exact activeClassName="active" to={process.env.PUBLIC_URL + "/favourite">
                 Favourites
               </NavLink>
             </li>
 
             <li>
-              <NavLink exact activeClassName="active" to="/">
+              <NavLink exact activeClassName="active" to={process.env.PUBLIC_URL + "/"}>
                 Home
               </NavLink>
             </li>
