@@ -1,0 +1,20 @@
+.favouriteMoviesListSec {
+  display: flex;
+  background: #081a28;
+  flex-wrap: wrap;
+  min-height: 45rem;
+  margin: auto;
+  margin-top: 8%;
+  margin-bottom: 2%;
+  overflow-y: auto;
+
+  .resultInfo {
+    position: absolute;
+    color: wheat;
+    right: 30px;
+    top: 70px;
+  }
+}
+.liked {
+  color: red;
+}

@@ -1,0 +1,72 @@
+.moviedetailSec {
+  display: flex;
+  margin: auto;
+  width: -webkit-fill-available;
+  ul {
+    list-style-type: none;
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    font-size: 12px;
+    font-weight: 500;
+    width: 80%;
+    padding: 0;
+    li {
+      display: inline-block;
+      width: 30%;
+      padding: 0 10px;
+      text-align: start;
+    }
+  }
+}
+
+.moviieDetailImg {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 1%;
+  position: relative;
+  cursor: pointer;
+}
+
+.movieDetailLable {
+  padding-right: 10px;
+  display: inline-block;
+  width: 100px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.movieDetailLableVal {
+  padding-left: 10px;
+  color: #878c92;
+  font-size: 14px;
+}
+
+.movieDetailImg {
+  min-width: 300px;
+  min-height: 400px;
+}
+
+.movieSummary {
+  margin: 15px 0px;
+  text-align: start;
+}
+
+.movieSummaryLabel {
+  padding-right: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.customeTags {
+  background: #2a5f8d;
+  display: inline-block;
+  padding: 5px 5px;
+  border-radius: 4px;
+  margin: 5px 5px 0 0;
+  color: #fff;
+}
+
+.ratingListItem {
+  width: 100% !important;
+}

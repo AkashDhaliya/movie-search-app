@@ -1,0 +1,17 @@
+@mixin clearfix {
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin imgSize($qty, $padding) {
+  width: ((100% - (($qty) * $padding)) / $qty);
+  height: 350px;
+}
+
+

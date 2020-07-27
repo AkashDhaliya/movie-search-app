@@ -1,0 +1,55 @@
+nav {
+  header & {
+    color: $offwhite;
+    background-color: darken($blue, 15%);
+    position: fixed;
+    width: -webkit-fill-available;
+    z-index: 2;
+
+    .Container {
+      margin: auto;
+      .app-header {
+        float: left;
+        h1 {
+          margin: 0;
+          padding: 3px 15px;
+          font-size: 2rem;
+        }
+      }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        @include clearfix;
+      }
+
+      ul li {
+        padding: 1%;
+        float: right;
+
+        @media screen and (max-width: $small) {
+          padding: 14px;
+          font-size: calc(14px + 1vmin);
+        }
+
+        @media screen and (min-width: $small) and (max-width: $large) {
+          padding: 14px;
+          font-size: calc(18px + 1vmin);
+        }
+
+        &:hover a {
+          color: $aliceblue;
+        }
+
+        a.active {
+          color: $aliceblue;
+        }
+      }
+
+      ul li a {
+        text-decoration: none;
+        color: $offwhite;
+      }
+    }
+  }
+}
