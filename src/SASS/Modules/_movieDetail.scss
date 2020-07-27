@@ -14,7 +14,7 @@
     li {
       display: inline-block;
       width: 30%;
-      padding: 10px 10px;
+      padding: 0 10px;
       text-align: start;
     }
   }
@@ -29,15 +29,44 @@
 }
 
 .movieDetailLable {
-    padding-right: 25px;
-    display: inline-block;
-    width: 30%;
-    font-size: 14px;
-    font-weight: bold;
+  padding-right: 10px;
+  display: inline-block;
+  width: 100px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .movieDetailLableVal {
-    padding-left: 25px;
-    color: #878c92;
-    font-size: 14px;
+  padding-left: 10px;
+  color: #878c92;
+  font-size: 14px;
+}
+
+.movieDetailImg {
+  min-width: 300px;
+  min-height: 400px;
+}
+
+.movieSummary {
+  margin: 15px 0px;
+  text-align: start;
+}
+
+.movieSummaryLabel {
+  padding-right: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.customeTags {
+  background: #2a5f8d;
+  display: inline-block;
+  padding: 5px 5px;
+  border-radius: 4px;
+  margin: 5px 5px 0 0;
+  color: #fff;
+}
+
+.ratingListItem {
+  width: 100% !important;
 }

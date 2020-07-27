@@ -6,6 +6,7 @@ import Loading from "../LoadingSpinnerComponent/LoadingSpinner";
 
 function MovieDetailComponent(props) {
   const [movieDetail, setMovieDetail] = useState([]);
+  const [movieSummary, setMovieSummary] = useState("");
   const [isResponse, setIsResponse] = useState(false);
   const [isError, setIError] = useState(false);
 
@@ -16,16 +17,24 @@ function MovieDetailComponent(props) {
       plot: "full",
     };
     getSearchData(params);
-  }, []);
+  }, [props.id]);
 
   function getSearchData(params) {
     Requests(params).then(
       (response) => {
         let keys = Object.keys(response.data);
         let data = [];
+        let ratings;
         keys.forEach((item) => {
-          data.push({ key: item, val: response.data[item] });
+          if (item !== "Poster" && item !== "imdbID" && item !== "Plot" && item !== "Ratings") {
+            data.push({ key: item, val: response.data[item] });
+          } else if (item === "Ratings") {
+            ratings = { key: item, val: response.data[item] };
+          } else if (item === "Plot") {
+            setMovieSummary(response.data[item]);
+          }
         });
+        data.push(ratings);
         setMovieDetail(data);
         setIsResponse(true);
         setIError(false);
@@ -39,31 +48,47 @@ function MovieDetailComponent(props) {
 
   if (isResponse && !isError) {
     return (
-      <div className="moviedetailSec">
-        <div>
+      <>
+        <div className="movieSummary">
+          <span className="movieSummaryLabel">Summary</span>
+          <span>:</span>
+          <span className="movieDetailLableVal">{movieSummary}</span>
+        </div>
+        <div className="moviedetailSec">
           <div className="movieDetailImg">
             <img src={props.posterurl} alt="Movie Name" />
           </div>
+          <ul>
+            {movieDetail.map((item) => {
+              if (item.key === "Ratings") {
+                return (
+                  <li className="ratingListItem" key={item.key}>
+                    <span className="movieDetailLable">{item.key}</span>
+                    <span>:</span>
+                    <span className="movieDetailLableVal">
+                      {item.val.map((rating) => {
+                        return (
+                          <span className="customeTags" key={rating.Source}>
+                            {rating.Source}&nbsp;:&nbsp;{rating.Value}
+                          </span>
+                        );
+                      })}
+                    </span>
+                  </li>
+                );
+              } else {
+                return (
+                  <li key={item.key}>
+                    <span className="movieDetailLable">{item.key}</span>
+                    <span>:</span>
+                    <span className="movieDetailLableVal">{item.val}</span>
+                  </li>
+                );
+              }
+            })}
+          </ul>
         </div>
-        <ul>
-          {movieDetail.map((item) => {
-            if (
-              item.key !== "Ratings" &&
-              item.key !== "Poster" &&
-              item.key !== "imdbID" &&
-              item.key !== "Plot"
-            ) {
-              return (
-                <li key={item.key}>
-                  <span className="movieDetailLable">{item.key}</span>
-                  <span>:</span>
-                  <span className="movieDetailLableVal">{item.val}</span>
-                </li>
-              );
-            }
-          })}
-        </ul>
-      </div>
+      </>
     );
   } else if (isResponse && isError) {
     return <div className="moviedetailSec">Oops something went wrong.</div>;
